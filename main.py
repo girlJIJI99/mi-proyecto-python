@@ -50,10 +50,17 @@ if modo == "1":
             jugador2 = crear_pokemon(opcion2)
         else:
             print("Opcion invalida")
+            
 #------------------------------------------------------------   
+#Consolidado con IA 
+#El uso de keys, choice y list
+# Se necesita que la computadora elija un Pokémon automáticamente y sin intervención del usuario. 
+# Como los Pokémon están guardados en un diccionario, primero se utiliza keys() para obtener los nombres disponibles, 
+# luego list() para poder manejarlos como una lista, y finalmente random.choice() para seleccionar uno al azar.
+
 else: 
     print ("La computadora esta eligiendo...")
-    opcion2 = random.choice(list(CATALOGO_POKEMON.keys()))
+    opcion2 = random.choice(list(CATALOGO_POKEMON.keys())) # En tu código, keys(), list() y random.choice() trabajan juntos para que la computadora elija un Pokémon al azar
     jugador2 = crear_pokemon(opcion2)
     print(f"La computadora ha elegido al jugado {jugador2.nombre}")
 #------------------------------------------------------------  
@@ -65,6 +72,25 @@ print(f"{jugador1.nombre} VS {jugador2.nombre}")
 
 turno_jugador1 = True
 while jugador1.hp_actual > 0  and jugador2.hp_actual > 0:
+
+
+    if turno_jugador1:
+        actual = jugador1
+        oponente = jugador2
+        nombre_turno = "Jugador1"
+    else:
+        actual = jugador2
+        oponente= jugador1
+        nombre_turno = "jugador2" if modo == "1" else "Computadora"
+
+print("\n" + "-" * 40)
+print(f"Turno de: {actual.nombre} ({nombre_turno})")
+print(f"[HP: {actual.hp_actual}]-- [EP: {actual.energia_actual}]")
+
+
+
+#---------------------------TURNO DEL JUGADOR ----------------------------
+
 
 
 
