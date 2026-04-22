@@ -55,23 +55,31 @@ class Pokemon(ABC):
 # 4 CLASES HIJAS esenciales que heredan de la clase base "POKEMON"
 #CLASE AGUA CON ISINSTANCE
 class PokemonAgua(Pokemon):
-    def atacar(self, oponente):
-        #Validacion principal 
-        if self.energia_actual <15:
-            print("No cuenta con energia suficente.")
-            return
-        self.energia_actual -= 15
-        daño = 10
-#--------------- Segunda y tercera Validacion
-        if isinstance(oponente, PokemonFuego):
-            daño *= 2
-            print("Es super efectivo.")
-        if oponente.defendiendo:
-            daño //= 2
-            oponente.defendiendo = False
-        oponente.hp_actual -= daño
-        print(f"{self.nombre} hace {daño} de daño")
+   def atacar(self, oponente):
 
+    # Validación de energía
+    if self.energia_actual < 15:
+        print("No cuenta con energía suficiente.")
+        return
+
+    self.energia_actual -= 15
+    daño = 10
+
+    print(f"¡{self.nombre} usa un ataque!")
+
+    # Ventaja elemental
+    if isinstance(oponente, PokemonFuego):
+        daño *= 2
+        print("¡Es súper efectivo!")
+
+    # Defensa
+    if oponente.defendiendo:
+        daño //= 2
+        oponente.defendiendo = False
+
+    oponente.hp_actual -= daño
+
+    print(f"{oponente.nombre} recibe {daño} puntos de daño.")
 
 #CALSE FUEGO CON INSINSTANCE
 class PokemonFuego(Pokemon):
