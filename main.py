@@ -1,96 +1,78 @@
-from pokedex import pokedex
+from pokedex import CATALOGO_POKEMON, mostrar_catalogo_disponible
 from pokemon_clases import *
 import random
 
 
-def mostrar_pokedex():
-    for clave, datos in pokedex.items():
-        print(f"[{clave}] {datos['nombre']} | Tipo: {datos['tipo']} | HP: {datos['hp_maximo']} | EP: {datos['energia_maxima']}")
+def crear_pokemon(datos):
+    tipo = datos ["tipo"]
+    if tipo == "Fuego":
+        return PokemonFuego(datos["nombre"], datos["hp"], datos["ep"])
+    elif tipo == "Agua":
+        return PokemonAgua(datos ["nombre"], datos ["hp"], datos["ep"])
+    elif tipo =="Planta":
+        return PokemonPlanta (datos["nombre", datos["hp"], datos ["ep"]])
+    elif tipo =="Electrico":
+        return PokemonElectrico(datos["nombre"], datos["hp"], datos["ep"])
+
+#============================= MENU===============================
+print("=" * 50)
+print(" SIMULADOR DE BATALLAS POKEMON")
+print("=" * 50)
+ 
+
+print("1. Jugador VS Jugador")
+print("2. Jugador VS Computadora")
+
+while True: 
+    modo = input("Seleccione modo: ") 
+    if modo == "1" or modo == "2": 
+        break 
+    else: 
+        print("Opción inválida, intenta de nuevo.")
 
 
-def crear_pokemon(opcion):
-    datos = pokedex[opcion]
+#ELEGIR POKEMON CON VALIDACION
+#=====JUGADOR 1=======
+while True:
+    opcion1 = input("jugador 1, elige tu Pokemon:")
+    if opcion1 in CATALOGO_POKEMON:
+        jugador1 = crear_pokemon(opcion1)
+        print(f"Has seleccionado{jugador1.nombre}")
+        break
+    else:
+        print("opcion invalida.")
 
-    if datos["tipo"] == "Fuego":
-        return PokemonFuego(datos["nombre"], datos["hp_maximo"], datos["energia_maxima"])
-    elif datos["tipo"] == "Agua":
-        return PokemonAgua(datos["nombre"], datos["hp_maximo"], datos["energia_maxima"])
-    elif datos["tipo"] == "Planta":
-        return PokemonPlanta(datos["nombre"], datos["hp_maximo"], datos["energia_maxima"])
-    elif datos["tipo"] == "Electrico":
-        return PokemonElectrico(datos["nombre"], datos["hp_maximo"], datos["energia_maxima"])
-
-
-def turno(jugador, oponente):
-    if jugador.paralizado:
-        print(f"{jugador.nombre} está paralizado y pierde turno")
-        jugador.paralizado = False
-        return
-
-    print(f"\nTURNO DE {jugador.nombre}")
-    print(f"HP: {jugador.hp_actual}/{jugador.hp_maximo} | EP: {jugador.energia_actual}/{jugador.energia_maxima}")
-
+#===== COMPUTADORA o jugador 2====
+if modo == "1":
     while True:
-        try:
-            opcion = int(input("1.Atacar 2.Defender 3.Descansar: "))
-            break
-        except ValueError:
-            print("Entrada inválida")
-
-    if opcion == 1:
-        jugador.atacar(oponente)
-    elif opcion == 2:
-        jugador.defender()
-    elif opcion == 3:
-        jugador.descansar()
-
-
-def turno_cpu(cpu, jugador):
-    accion = random.randint(1, 3)
-    print(f"\nCPU elige {accion}")
-
-    if accion == 1:
-        cpu.atacar(jugador)
-    elif accion == 2:
-        cpu.defender()
-    else:
-        cpu.descansar()
-
-
-def batalla(p1, p2, cpu=False):
-    while p1.hp_actual > 0 and p2.hp_actual > 0:
-        turno(p1, p2)
-
-        if p2.hp_actual <= 0:
-            break
-
-        if cpu:
-            turno_cpu(p2, p1)
+        opcion2 = input("Jugador 2, elige tu pokemon:")
+        if opcion2 in CATALOGO_POKEMON:
+            jugador2 = crear_pokemon(opcion2)
         else:
-            turno(p2, p1)
+            print("Opcion invalida")
+#------------------------------------------------------------   
+else: 
+    print ("La computadora esta eligiendo...")
+    opcion2 = random.choice(list(CATALOGO_POKEMON.keys()))
+    jugador2 = crear_pokemon(opcion2)
+    print(f"La computadora ha elegido al jugado {jugador2.nombre}")
+#------------------------------------------------------------  
 
-    print("\nFIN DE LA BATALLA")
-    if p1.hp_actual > 0:
-        print(f"Gana {p1.nombre}")
-    else:
-        print(f"Gana {p2.nombre}")
+# ====BATALLA====
+print("\n Comienza la batalla!!")
+print(f"{jugador1.nombre} VS {jugador2.nombre}")
 
 
-# MAIN
-print("1. PvP\n2. PvE")
+turno_jugador1 = True
+while jugador1.hp_actual > 0  and jugador2.hp_actual > 0:
 
-modo = int(input("Modo: "))
 
-mostrar_pokedex()
 
-op1 = int(input("Jugador 1 elige: "))
-p1 = crear_pokemon(op1)
 
-if modo == 1:
-    op2 = int(input("Jugador 2 elige: "))
-    p2 = crear_pokemon(op2)
-    batalla(p1, p2)
-else:
-    op2 = random.choice(list(pokedex.keys()))
-    p2 = crear_pokemon(op2)
-    batalla(p1, p2, cpu=True)
+
+
+
+
+
+
+

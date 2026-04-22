@@ -126,7 +126,7 @@ class PokemonElectrico(Pokemon):
             print("El oponente quedo paralizado.")
             oponente.paralizado = True 
         if oponente.defendiendo:
-            daño//=2
+            daño//=2  
             oponente.defendiendo = False
 
             oponente.hp_actual -= daño
